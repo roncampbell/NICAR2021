@@ -2,7 +2,7 @@
 title: "Step by Step: Importing the PL 94 File"
 author: "Ronald Campbell"
 date: "2/18/2021"
-output: html_document
+output: github_document
 ---
 
 The first major release from the 2020 Census will be the Redistricting file, also known as PL 94-171 for the 1975 law that required it. The file will detail population, race and housing counts down to the block level. Like everything else in the 2020 Census, it is months behind schedule and now is expected to be released around Sept. 30, six months late.
@@ -116,7 +116,7 @@ PL94_2020_f2_RI <-
                       "NHMulti18","HUTotal","HUOcc","HUVac"))
 ```
 
-Finally, we'll grab File 3, which contains the group quarters table. This is the only file that we can't compare to 2010. It's also the easiest to import. We grab the whole thing.
+Next, we'll grab File 3, which contains the group quarters table. This is the only file that we can't compare to 2010. It's also the easiest to import. We grab the whole thing.
 
 ```{r, warning=FALSE, message=FALSE}
 PL94_2020_f3_RI <- 
@@ -125,6 +125,15 @@ PL94_2020_f3_RI <-
                      "LOGRECNO","GpQtrTot","InstPop","CorexAdult",
                      "CorexJuv","NursPop","OthInstPop","NonInstPop",
                      "StuHousing","Military","OthNonInst"))
+```
+
+We'll use the LOGRECNO field to join the tables, so it has to be the same type -- either numeric or character -- in all four data frames. We'll take care of that in this last step.
+
+```{r}
+PL_94_2020_geo_RI$LOGRECNO <- as.numeric(PL_94_2020_geo_RI$LOGRECNO)          
+PL94_2020_f1_RI$LOGRECNO <- as.numeric(PL94_2020_f1_RI$LOGRECNO)
+PL94_2020_f2_RI$LOGRECNO <- as.numeric(PL94_2020_f2_RI$LOGRECNO)
+PL94_2020_f3_RI$LOGRECNO <- as.numeric(PL94_2020_f3_RI$LOGRECNO)
 ```
 
 That completes the import. I'll leave you to the fun part: Figuring out what it all means!
